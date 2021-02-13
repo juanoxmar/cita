@@ -11,7 +11,8 @@ db.once('open', () => {
   console.log('Connected to MongoDB');
 });
 
-app.use('/', router);
+app.use(express.json());
+app.use('/api', router);
 
 app.listen(PORT, () => {
   console.log(`✨ Listening on PORT: ${PORT} ✨`);
