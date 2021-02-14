@@ -1,7 +1,7 @@
 const { Business } = require('../model');
 
 module.exports = {
-  get: (req, res) => {
+  post: (req, res) => {
     const { city, serviceType } = req.body;
     Business.find({ city, serviceType })
       .then((data) => {

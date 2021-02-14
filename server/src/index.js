@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 const express = require('express');
+const cors = require('cors');
 
 const router = require('./router');
 const db = require('./database');
@@ -12,6 +13,7 @@ db.once('open', () => {
 });
 
 app.use(express.json());
+app.use(cors());
 app.use('/api', router);
 
 app.listen(PORT, () => {

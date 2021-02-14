@@ -18,9 +18,12 @@ for (let i = 1; i <= 10; i += 1) {
   business.push({
     businessId: i,
     name: faker.company.companyName(),
+    serviceType: 'Barber',
+    street: faker.address.streetAddress(),
     city: 'Seattle',
     state: 'WA',
-    serviceType: 'Barber',
+    zip: faker.address.zipCodeByState('WA'),
+    photo: `https://cita-mvp.s3-us-west-2.amazonaws.com/images/image${i}.jpg`,
   });
   const services = [];
   for (let j = 1; j <= 5; j += 1) {
