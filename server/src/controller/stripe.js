@@ -1,14 +1,20 @@
-const stripe = require('stripe')('sk_test_51HMJBPGBojkWCNzVLWkzJdIr8GKLA6zSRuGBhrRnzUErc5gHYMJLh3XW6hteZWDPWNEmH2sAjFyiuPfUyoEk5aZg00tZbRIWAh');
+const Stripe = require('stripe');
+
+const stripe = Stripe(process.env.STRIPE_KEY);
 
 module.exports = {
   post: (req, res) => {
     const { amount } = req.body;
     stripe.paymentIntents.create({
-      amount,
+      amount: amount * 100,
       currency: 'usd',
+      payment_method_types: ['card'],
     })
-      .then((paymentIntent) => {
-        res.send({ clientSecret: paymentIntent.client_secret });
+      .then((intent) => {
+        res.send({ client_secret: intent.client_secret });
+      })
+      .catch((err) => {
+        res.status(500).send(err);
       });
   },
 };

@@ -1,18 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import DayTimePicker from '@mooncake-dev/react-day-time-picker';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import ToggleButton from 'react-bootstrap/ToggleButton';
 import moment from 'moment';
+import DayTimePicker from '../lib/react-day-picker';
+
+import Stripe from '../components/Stripe';
 import axios from '../axios';
 
-export default function AppointmentModal({ show, handleClose, business }) {
-  const {
-    // name,
-    businessId,
-    // street, city, state, zip, photo,
-  } = business;
-
+export default function AppointmentModal({
+  show, handleClose, businessId, appts,
+}) {
   const customer = {
     name: 'Juan Ramirez',
     phone: '555-555-2365',
@@ -21,12 +24,33 @@ export default function AppointmentModal({ show, handleClose, business }) {
   const [isScheduling, setIsScheduling] = useState(false);
   const [isScheduled, setIsScheduled] = useState(false);
   const [scheduleErr, setScheduleErr] = useState('');
+  const [services, setServices] = useState([]);
+  const [radioValue, setRadioValue] = useState('');
+  const [radioIdx, setRadioIdx] = useState(null);
+  const [amount, setAmount] = useState(null);
 
-  const date = new Date(2021, 1, 14, 17, 0, 0);
+  useEffect(() => {
+    if (show) {
+      axios.get(`/service/${businessId}`)
+        .then((response) => {
+          setServices(response.data);
+        })
+        .catch((err) => {
+          throw err;
+        });
+    }
+  }, [show]);
+
+  const radioChangeHandler = (e, idx) => {
+    setRadioValue(e.currentTarget.value);
+    setRadioIdx(idx);
+    setAmount(services[idx].price);
+  };
 
   const valid = (slotTime) => {
     const a = moment(slotTime);
-    const b = moment(date);
+
+    const everyCheck = appts.every((appt) => a.diff(appt, 'hour', true));
 
     const eveningBlock = new Date(
       slotTime.getFullYear(),
@@ -46,7 +70,9 @@ export default function AppointmentModal({ show, handleClose, business }) {
       0,
     );
 
-    return a.diff(b, 'hour', true) !== 0 && slotTime.getTime() > earlyMorningBlock.getTime() && slotTime.getTime() < eveningBlock.getTime();
+    return everyCheck
+      && slotTime.getTime() > earlyMorningBlock.getTime()
+      && slotTime.getTime() < eveningBlock.getTime();
   };
 
   const handleScheduled = (calendarDate) => {
@@ -74,24 +100,60 @@ export default function AppointmentModal({ show, handleClose, business }) {
       });
   };
 
+  const toggleButtons = services.map(({ service, price }, idx) => (
+    <ToggleButton
+      key={service}
+      type="radio"
+      value={service}
+      checked={radioValue === service}
+      index={idx}
+      onChange={(e) => radioChangeHandler(e, idx)}
+    >
+      {`${service} - $${price}`}
+    </ToggleButton>
+  ));
+
   return (
     <>
-      <Modal show={show} onHide={handleClose} centered size="lg">
+      <Modal show={show} onHide={handleClose} size="xl">
         <Modal.Header closeButton>
           <Modal.Title>Book Appointment</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <DayTimePicker
-            timeSlotSizeMinutes={60}
-            isLoading={isScheduling}
-            isDone={isScheduled}
-            err={scheduleErr}
-            timeSlotValidator={valid}
-            onConfirm={handleScheduled}
-          />
+          <Container>
+            <Row>
+              <Col>
+                <Container>
+                  <Row className="d-flex justify-content-center">
+                    <ButtonGroup vertical toggle className="mt-3">
+                      {toggleButtons}
+                    </ButtonGroup>
+                  </Row>
+                  <Row className="mt-3 mx-0 d-flex justify-content-center">
+                    {radioIdx !== null ? services[radioIdx].description : null}
+                  </Row>
+                </Container>
+              </Col>
+              <Col>
+                {amount ? (
+                  <DayTimePicker
+                    timeSlotSizeMinutes={60}
+                    isLoading={isScheduling}
+                    isDone={isScheduled}
+                    err={scheduleErr}
+                    timeSlotValidator={valid}
+                    onConfirm={handleScheduled}
+                    doneText="Your Appointment has been booked!"
+                    amount={amount}
+                    Stripe={Stripe}
+                  />
+                ) : null}
+              </Col>
+            </Row>
+          </Container>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="primary" onClick={handleClose}>
             Close
           </Button>
         </Modal.Footer>
@@ -103,14 +165,6 @@ export default function AppointmentModal({ show, handleClose, business }) {
 AppointmentModal.propTypes = {
   show: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
-  business: PropTypes.shape({
-    businessId: PropTypes.string,
-    name: PropTypes.string,
-    serviceType: PropTypes.string,
-    street: PropTypes.string,
-    city: PropTypes.string,
-    state: PropTypes.string,
-    zip: PropTypes.string,
-    photo: PropTypes.string,
-  }).isRequired,
+  businessId: PropTypes.string.isRequired,
+  appts: PropTypes.arrayOf(PropTypes.string).isRequired,
 };

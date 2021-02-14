@@ -6,15 +6,28 @@ import Row from 'react-bootstrap/Row';
 import Home from './containers/Home';
 import Listing from './containers/Listing';
 import AppointmentModal from './containers/AppointmentModal';
+import axios from './axios';
 
 export default function App() {
   const [services, setServices] = useState([]);
   const [show, setShow] = useState(false);
-  const [currentBiz, setCurrentBiz] = useState({});
+  const [currentBiz, setCurrentBiz] = useState('');
+  const [appts, setAppts] = useState([]);
+
+  const fetchAppt = (id) => {
+    axios.get(`/appt/${id}`)
+      .then((response) => {
+        setAppts(response.data);
+      })
+      .catch((err) => {
+        throw (err);
+      });
+  };
 
   const handleClose = () => setShow(false);
   const handleShow = (id) => {
-    setCurrentBiz(services[id]);
+    setCurrentBiz(services[id].businessId);
+    fetchAppt(services[id].businessId);
     setShow(true);
   };
 
@@ -31,7 +44,12 @@ export default function App() {
         </Col>
       </Row>
       <Row>
-        <AppointmentModal show={show} handleClose={handleClose} business={currentBiz} />
+        <AppointmentModal
+          show={show}
+          handleClose={handleClose}
+          businessId={currentBiz}
+          appts={appts}
+        />
       </Row>
     </Container>
   );
