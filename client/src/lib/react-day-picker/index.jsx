@@ -1,4 +1,5 @@
 /* eslint-disable no-nested-ternary */
+// modified version of https://github.com/mooncake-dev/react-day-time-picker
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import dateFns from 'date-fns';
