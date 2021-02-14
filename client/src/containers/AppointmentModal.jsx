@@ -84,6 +84,7 @@ export default function AppointmentModal({
       customer,
       appointment: {
         date: calendarDate,
+        service: radioValue,
       },
     };
 
@@ -121,7 +122,7 @@ export default function AppointmentModal({
         </Modal.Header>
         <Modal.Body>
           <Container>
-            <Row xs={1}>
+            <Row lg={1} xl={2}>
               <Col className="mb-3">
                 <Container>
                   <Row className="d-flex justify-content-center">
