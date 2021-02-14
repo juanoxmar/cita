@@ -5,6 +5,7 @@ const schema = new Schema({
   services: [{
     service: String,
     price: Number,
+    description: String,
   }],
 });
 

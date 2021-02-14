@@ -33,7 +33,8 @@
     "express": "^4.17.1",
     "faker": "^5.4.0",
     "moment": "^2.29.1",
-    "mongoose": "5.11.11"
+    "mongoose": "5.11.11",
+    "stripe": "^8.135.0"
   },
   "devDependencies": {
     "eslint": "^7.19.0",

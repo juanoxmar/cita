@@ -5,7 +5,7 @@ module.exports = {
     const { businessId } = req.params;
     Service.findOne({ businessId })
       .then((data) => {
-        res.send(data);
+        res.send(data.services);
       })
       .catch((err) => {
         res.status(500).send(err);

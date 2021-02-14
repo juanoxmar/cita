@@ -28,8 +28,9 @@ for (let i = 1; i <= 10; i += 1) {
   const services = [];
   for (let j = 1; j <= 5; j += 1) {
     services.push({
-      service: faker.commerce.product(),
+      service: `${faker.commerce.productAdjective()} ${faker.commerce.product()}`,
       price: faker.random.number({ min: 10, max: 50 }),
+      description: faker.commerce.productDescription(),
     });
   }
   service.push({

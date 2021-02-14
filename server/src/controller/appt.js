@@ -1,3 +1,4 @@
+const moment = require('moment');
 const { Appt } = require('../model');
 
 module.exports = {
@@ -9,6 +10,17 @@ module.exports = {
     newAppt.save()
       .then(() => {
         res.send('Sucessfully Booked Appointment');
+      })
+      .catch((err) => {
+        res.status(500).send(err);
+      });
+  },
+  get: (req, res) => {
+    const { businessId } = req.params;
+    Appt.find({ businessId })
+      .then((data) => {
+        const dateObjects = data.map((appt) => moment(appt.appointment.date));
+        res.send(dateObjects);
       })
       .catch((err) => {
         res.status(500).send(err);
