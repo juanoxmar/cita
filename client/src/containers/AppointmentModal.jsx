@@ -14,7 +14,7 @@ import Stripe from '../components/Stripe';
 import axios from '../axios';
 
 export default function AppointmentModal({
-  show, handleClose, businessId, appts,
+  show, handleClose, businessId, appts, name,
 }) {
   const customer = {
     name: 'Juan Ramirez',
@@ -117,12 +117,12 @@ export default function AppointmentModal({
     <>
       <Modal show={show} onHide={handleClose} size="xl">
         <Modal.Header closeButton>
-          <Modal.Title>Book Appointment</Modal.Title>
+          <Modal.Title>{name}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Container>
-            <Row>
-              <Col>
+            <Row xs={1}>
+              <Col className="mb-3">
                 <Container>
                   <Row className="d-flex justify-content-center">
                     <ButtonGroup vertical toggle className="mt-3">
@@ -166,5 +166,6 @@ AppointmentModal.propTypes = {
   show: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   businessId: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   appts: PropTypes.arrayOf(PropTypes.string).isRequired,
 };

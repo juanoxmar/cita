@@ -12,6 +12,7 @@ export default function App() {
   const [services, setServices] = useState([]);
   const [show, setShow] = useState(false);
   const [currentBiz, setCurrentBiz] = useState('');
+  const [currentBizName, setCurrentBizName] = useState('');
   const [appts, setAppts] = useState([]);
 
   const fetchAppt = (id) => {
@@ -27,6 +28,7 @@ export default function App() {
   const handleClose = () => setShow(false);
   const handleShow = (id) => {
     setCurrentBiz(services[id].businessId);
+    setCurrentBizName(services[id].name);
     fetchAppt(services[id].businessId);
     setShow(true);
   };
@@ -48,6 +50,7 @@ export default function App() {
           show={show}
           handleClose={handleClose}
           businessId={currentBiz}
+          name={currentBizName}
           appts={appts}
         />
       </Row>

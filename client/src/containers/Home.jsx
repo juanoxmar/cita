@@ -44,7 +44,7 @@ export default function Home({ setServices }) {
           <Form onSubmit={onSearchHandler}>
             <InputGroup className="mb-3">
               <FormControl id="serviceType" placeholder="Service?" value={search.serviceType} onChange={onChangeHandler} />
-              <FormControl id="city" placeholder="City and State?" value={search.city} onChange={onChangeHandler} />
+              <FormControl id="city" placeholder="City?" value={search.city} onChange={onChangeHandler} />
               <InputGroup.Append>
                 <Button variant="primary" type="submit">
                   Search
