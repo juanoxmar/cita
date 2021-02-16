@@ -1,18 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
+import CardColumns from 'react-bootstrap/CardColumns';
 
 import ListingCard from './ListingCard';
 
 export default function Listing({ services, handleShow }) {
   return (
-    <Container fluid>
-      {services.map((service, idx) => (
-        <Row key={service.businessId} className="mb-3">
-          <ListingCard service={service} handleShow={handleShow} idx={idx} />
-        </Row>
-      ))}
+    <Container>
+      <CardColumns>
+        {services.map((service, idx) => (
+          <ListingCard
+            key={service.businessId}
+            service={service}
+            handleShow={handleShow}
+            idx={idx}
+          />
+        ))}
+      </CardColumns>
     </Container>
   );
 }

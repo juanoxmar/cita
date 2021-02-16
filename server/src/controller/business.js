@@ -1,4 +1,4 @@
-const { Business } = require('../model');
+const { Business, Service } = require('../model');
 
 module.exports = {
   search: (req, res) => {
@@ -25,18 +25,30 @@ module.exports = {
     const { businessId } = req.params;
     Business.findOne({ businessId })
       .then((data) => {
-        const {
-          name, serviceType, street, city, state, zip, photo,
-        } = data;
-        res.send({
-          name,
-          serviceType,
-          street,
-          city,
-          state,
-          zip,
-          photo,
-        });
+        if (data) {
+          const {
+            name, serviceType, street, city, state, zip, photo,
+          } = data;
+          res.send({
+            name,
+            serviceType,
+            street,
+            city,
+            state,
+            zip,
+            photo,
+          });
+        } else {
+          console.log(data);
+          const newServiceDoc = new Service({ businessId, services: [] });
+          newServiceDoc.save()
+            .then(() => {
+              res.send('noProfile');
+            })
+            .catch((err) => {
+              res.status(500).send(err);
+            });
+        }
       })
       .catch((err) => {
         res.status(500).send(err);

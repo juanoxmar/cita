@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
-import NavBar from 'react-bootstrap/Navbar';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
@@ -38,9 +37,6 @@ export default function Home({ setServices }) {
     <>
       <Row>
         <Container>
-          <NavBar bg="primary" variant="dark">
-            <NavBar.Brand>Cita</NavBar.Brand>
-          </NavBar>
           <Form onSubmit={onSearchHandler} className="mt-3">
             <InputGroup className="mb-3">
               <FormControl id="serviceType" placeholder="Service?" value={search.serviceType} onChange={onChangeHandler} />

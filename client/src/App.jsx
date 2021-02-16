@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-
+import NavBar from 'react-bootstrap/Navbar';
 import Home from './containers/Home';
 import Listing from './containers/Listing';
 import AppointmentModal from './containers/AppointmentModal';
@@ -34,26 +34,31 @@ export default function App() {
   };
 
   return (
-    <Container fluid>
-      <Row>
-        <Col>
-          <Home setServices={setServices} />
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Listing services={services} handleShow={handleShow} />
-        </Col>
-      </Row>
-      <Row>
-        <AppointmentModal
-          show={show}
-          handleClose={handleClose}
-          businessId={currentBiz}
-          name={currentBizName}
-          appts={appts}
-        />
-      </Row>
-    </Container>
+    <>
+      <NavBar bg="primary" variant="dark">
+        <NavBar.Brand>Cita</NavBar.Brand>
+      </NavBar>
+      <Container fluid>
+        <Row>
+          <Col>
+            <Home setServices={setServices} />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Listing services={services} handleShow={handleShow} />
+          </Col>
+        </Row>
+        <Row>
+          <AppointmentModal
+            show={show}
+            handleClose={handleClose}
+            businessId={currentBiz}
+            name={currentBizName}
+            appts={appts}
+          />
+        </Row>
+      </Container>
+    </>
   );
 }
