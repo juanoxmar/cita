@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Card from 'react-bootstrap/Card';
-import Container from 'react-bootstrap/Container';
 import { MdLocationCity } from 'react-icons/md';
 
 export default function ListingCard({ service, handleShow, idx }) {
@@ -9,18 +8,16 @@ export default function ListingCard({ service, handleShow, idx }) {
     name, street, city, state, zip, photo,
   } = service;
   return (
-    <Container>
-      <Card onClick={() => handleShow(idx)}>
-        <Card.Img variant="top" src={photo} alt="Card image" />
-        <Card.Body>
-          <Card.Title>{name}</Card.Title>
-        </Card.Body>
-        <Card.Footer>
-          <MdLocationCity />
-          <span className="ml-3">{`${street} ${city}, ${state}, ${zip}`}</span>
-        </Card.Footer>
-      </Card>
-    </Container>
+    <Card onClick={() => handleShow(idx)} className="shadow-sm p-3 mb-3 bg-white rounded" border="light">
+      <Card.Img variant="top" src={photo} alt="Card image" />
+      <Card.Body>
+        <Card.Title>{name}</Card.Title>
+      </Card.Body>
+      <Card.Footer>
+        <MdLocationCity />
+        <span className="ml-3">{`${street} ${city}, ${state}, ${zip}`}</span>
+      </Card.Footer>
+    </Card>
   );
 }
 

@@ -32,6 +32,9 @@ export default function AppointmentModal({
 
   useEffect(() => {
     if (show) {
+      setAmount(null);
+      setRadioValue('');
+      setRadioIdx(null);
       axios.get(`/service/${businessId}`)
         .then((response) => {
           setServices(response.data);
