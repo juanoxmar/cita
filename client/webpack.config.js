@@ -28,6 +28,7 @@ module.exports = {
   },
   devServer: {
     contentBase: 'public',
+    port: 8081,
   },
   devtool: 'inline-source-map',
   plugins: [
