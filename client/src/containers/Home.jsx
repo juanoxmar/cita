@@ -38,10 +38,10 @@ export default function Home({ setServices }) {
     <>
       <Row>
         <Container>
-          <NavBar>
+          <NavBar bg="primary" variant="dark">
             <NavBar.Brand>Cita</NavBar.Brand>
           </NavBar>
-          <Form onSubmit={onSearchHandler}>
+          <Form onSubmit={onSearchHandler} className="mt-3">
             <InputGroup className="mb-3">
               <FormControl id="serviceType" placeholder="Service?" value={search.serviceType} onChange={onChangeHandler} />
               <FormControl id="city" placeholder="City?" value={search.city} onChange={onChangeHandler} />

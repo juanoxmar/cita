@@ -8,6 +8,7 @@ import Col from 'react-bootstrap/Col';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import moment from 'moment';
+import faker from 'faker';
 import DayTimePicker from '../lib/react-day-picker';
 
 import Stripe from '../components/Stripe';
@@ -17,8 +18,8 @@ export default function AppointmentModal({
   show, handleClose, businessId, appts, name,
 }) {
   const customer = {
-    name: 'Juan Ramirez',
-    phone: '555-555-2365',
+    name: faker.name.findName(),
+    phone: faker.phone.phoneNumber(),
   };
 
   const [isScheduling, setIsScheduling] = useState(false);
