@@ -24,7 +24,9 @@ touch .env
 ```
 3. Edit `.env` file with environment variables as shown in `example.env` file.
 
-4. Install server dependencies 7 start development express server.
+4. Initialize MongoDB locally or use a cloud service.
+
+5. Install server dependencies & start development express server.
 ```bash
 yarn install
 yarn start
