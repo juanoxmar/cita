@@ -39,7 +39,6 @@ module.exports = {
             photo,
           });
         } else {
-          console.log(data);
           const newServiceDoc = new Service({ businessId, services: [] });
           newServiceDoc.save()
             .then(() => {
