@@ -17,7 +17,7 @@ cd client
 yarn install
 yarn start
 ```
-2. Change into serve directory and create `.env` file.
+2. Change into server directory and create `.env` file.
 ```bash
 cd ../server
 touch .env
@@ -29,3 +29,6 @@ touch .env
 yarn install
 yarn start
 ```
+
+## How to Use
+
