@@ -34,3 +34,4 @@ yarn start
 
 ## How to Use
 
+![Cita](/assets/cita.gif)
