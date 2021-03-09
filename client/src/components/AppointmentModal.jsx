@@ -11,7 +11,7 @@ import moment from 'moment';
 import faker from 'faker';
 import DayTimePicker from '../lib/react-day-picker';
 
-import Stripe from '../components/Stripe';
+import Stripe from './Stripe';
 import axios from '../axios';
 
 export default function AppointmentModal({
@@ -32,6 +32,9 @@ export default function AppointmentModal({
 
   useEffect(() => {
     if (show) {
+      setIsScheduled(false);
+      setIsScheduling(false);
+      setScheduleErr('');
       setAmount(null);
       setRadioValue('');
       setRadioIdx(null);
@@ -44,6 +47,10 @@ export default function AppointmentModal({
         });
     }
   }, [show]);
+
+  const modalHandleClose = () => {
+    handleClose();
+  };
 
   const radioChangeHandler = (e, idx) => {
     setRadioValue(e.currentTarget.value);
@@ -120,7 +127,7 @@ export default function AppointmentModal({
 
   return (
     <>
-      <Modal show={show} onHide={handleClose} size="xl">
+      <Modal show={show} onHide={modalHandleClose} size="xl">
         <Modal.Header closeButton>
           <Modal.Title>{name}</Modal.Title>
         </Modal.Header>
@@ -158,7 +165,7 @@ export default function AppointmentModal({
           </Container>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={modalHandleClose}>
             Close
           </Button>
         </Modal.Footer>

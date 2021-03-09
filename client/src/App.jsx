@@ -1,63 +1,51 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
-import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import NavBar from 'react-bootstrap/Navbar';
-import Home from './containers/Home';
-import Listing from './containers/Listing';
-import AppointmentModal from './containers/AppointmentModal';
-import axios from './axios';
+import Spinner from 'react-bootstrap/Spinner';
+import { useAuth0 } from '@auth0/auth0-react';
+
+import Signin from './components/Signin';
+import Navigation from './components/Navigation';
+import Home from './components/Home';
+import Profile from './components/Profile';
 
 export default function App() {
-  const [services, setServices] = useState([]);
-  const [show, setShow] = useState(false);
-  const [currentBiz, setCurrentBiz] = useState('');
-  const [currentBizName, setCurrentBizName] = useState('');
-  const [appts, setAppts] = useState([]);
+  const { isAuthenticated, isLoading } = useAuth0();
 
-  const fetchAppt = (id) => {
-    axios.get(`/appt/${id}`)
-      .then((response) => {
-        setAppts(response.data);
-      })
-      .catch((err) => {
-        throw (err);
-      });
-  };
+  let routes = (
+    <>
+      <Route path="/" component={Signin} />
+      <Redirect to="/" />
+    </>
+  );
 
-  const handleClose = () => setShow(false);
-  const handleShow = (id) => {
-    setCurrentBiz(services[id].businessId);
-    setCurrentBizName(services[id].name);
-    fetchAppt(services[id].businessId);
-    setShow(true);
-  };
+  if (isLoading) {
+    routes = (
+      <>
+        <Row className="mt-5 d-flex justify-content-center">
+          <Spinner animation="border" variant="primary" />
+        </Row>
+      </>
+    );
+  }
+
+  if (isAuthenticated) {
+    routes = (
+      <>
+        <Route path="/profile" exact component={Profile} />
+        <Route path="/" exact component={Home} />
+      </>
+    );
+  }
 
   return (
     <>
-      <NavBar bg="primary" variant="dark">
-        <NavBar.Brand>Cita</NavBar.Brand>
-      </NavBar>
-      <Container fluid>
-        <Row>
-          <Col>
-            <Home setServices={setServices} />
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Listing services={services} handleShow={handleShow} />
-          </Col>
-        </Row>
-        <Row>
-          <AppointmentModal
-            show={show}
-            handleClose={handleClose}
-            businessId={currentBiz}
-            name={currentBizName}
-            appts={appts}
-          />
-        </Row>
+      <Navigation />
+      <Container>
+        <Switch>
+          {routes}
+        </Switch>
       </Container>
     </>
   );
