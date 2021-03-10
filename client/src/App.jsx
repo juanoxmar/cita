@@ -11,7 +11,9 @@ import Home from './components/Home';
 import Profile from './components/Profile';
 
 export default function App() {
-  const { isAuthenticated, isLoading } = useAuth0();
+  const { isAuthenticated, isLoading, user } = useAuth0();
+
+  console.log(user);
 
   let routes = (
     <>
