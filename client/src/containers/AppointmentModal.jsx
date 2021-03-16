@@ -32,6 +32,9 @@ export default function AppointmentModal({
 
   useEffect(() => {
     if (show) {
+      setIsScheduled(false);
+      setIsScheduling(false);
+      setScheduleErr('');
       setAmount(null);
       setRadioValue('');
       setRadioIdx(null);

@@ -29,4 +29,20 @@ module.exports = {
         res.status(500).send(err);
       });
   },
+  delete: (req, res) => {
+    const { _id, businessId } = req.params;
+    Service.updateOne({ businessId }, {
+      $pull: {
+        services: {
+          _id,
+        },
+      },
+    })
+      .then(() => {
+        res.sendStatus(202);
+      })
+      .catch((err) => {
+        res.status(500).send(err);
+      });
+  },
 };
